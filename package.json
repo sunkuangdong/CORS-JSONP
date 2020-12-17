@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "dev1":"node-dev frank-com/server.js 8888",
+    "dev2":"node-dev qq-com/server.js 9990"
+  },
+  "dependencies": {
+    "node-dev": "^6.2.0"
+  }
+}
