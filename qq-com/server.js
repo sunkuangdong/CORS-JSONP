@@ -42,10 +42,17 @@ var server = http.createServer(function (request, response) {
         response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
         response.write(fs.readFileSync('qq-com/public/qq.js'))
         response.end()
-    } else if (path === '/friends.json') {
-        response.statusCode = 200
-        response.setHeader('Content-Type', 'text/json;charset=utf-8')
-        response.write(fs.readFileSync('qq-com/public/friends.json'))
+    }else if (path === '/friends.js') {
+        if (request.headers['referer'].indexOf("http://frank.com:8888/") === 0) {
+            response.statusCode = 200
+            response.setHeader('Content-Type', 'text/json;charset=utf-8')
+            const string = `window['{{callback}}']( {{data}} )`
+            const data = fs.readFileSync("qq-com//public/friends.json").toString()
+            const strings = string.replace("{{data}}", data).replace("{{callback}}", query.callback)
+            response.write(strings)
+        } else {
+            response.statusCode = 404
+        }
         response.end()
     } else {
         response.statusCode = 404
